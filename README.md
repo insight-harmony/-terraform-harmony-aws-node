@@ -1,7 +1,8 @@
 # terraform-harmony-aws-node
 
-[![open-issues](https://img.shields.io/github/issues-raw/insight-infrastructure/terraform-harmony-aws-node?style=for-the-badge)](https://github.com/insight-infrastructure/terraform-harmony-aws-node/issues)
-[![open-pr](https://img.shields.io/github/issues-pr-raw/insight-infrastructure/terraform-harmony-aws-node?style=for-the-badge)](https://github.com/insight-infrastructure/terraform-harmony-aws-node/pulls)
+[![open-issues](https://img.shields.io/github/issues-raw/insight-harmony/terraform-harmony-aws-node?style=for-the-badge
+)](https://github.com/insight-harmony/terraform-harmony-aws-node/issues)
+[![open-pr](https://img.shields.io/github/issues-pr-raw/insight-harmony/terraform-harmony-aws-node?style=for-the-badge)](https://github.com/insight-harmony/terraform-harmony-aws-node/pulls)
 
 > Warning: WIP - not ready for use 
 
