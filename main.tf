@@ -11,7 +11,6 @@ locals {
 #########
 data "aws_vpc" "default" {
   default = true
-  tags    = var.tags
 }
 
 data "aws_subnet_ids" "default" {
