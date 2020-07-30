@@ -1,0 +1,45 @@
+---
+
+print_:
+  type: print
+  statement: Configuring Harmony node on AWS
+
+available_regions_:
+  type: aws_azs
+  region: "{{ nuki.region }}"
+  when: "{{ nuki.region is not defined }}"
+
+region:
+  type: list
+  message: Which region would you like to deploy into?
+  choices: "{{ nuki.available_regions_ }}"
+  when: "{{ nuki.region is not defined }}"
+
+# Enable for non-simple deployment
+#available_azs_:
+#  type: aws_azs
+#  region: "{{ nuki.region }}"
+#  when: "{{ nuki.azs is not defined }}"
+#
+#azs:
+#  type: checkbox
+#  message: "What availability zones do you want to deploy in {{ nuki.region }}?"
+#  when: "{{ nuki.azs is not defined }}"
+#  choices: "{{ nuki.available_azs_ }}"
+
+min_spec_enabled:
+  type: confirm
+  message: Do you want to use the minimum specs?
+
+instance_type:
+  type: aws_ec2_types
+  region: "{{ nuki.region }}"
+  when: "{{ nuki.min_spec_enabled }}"
+
+sg_vars:
+  type: terraform_variables
+  when: "{{ nuki.vars_confirm_ }}"
+  variables_file: variables.tf
+  merge: true
+  var_list:
+    - ssh_ips
