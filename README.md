@@ -3,9 +3,11 @@
 [![open-issues](https://img.shields.io/github/issues-raw/insight-infrastructure/terraform-harmony-aws-node?style=for-the-badge)](https://github.com/insight-infrastructure/terraform-harmony-aws-node/issues)
 [![open-pr](https://img.shields.io/github/issues-pr-raw/insight-infrastructure/terraform-harmony-aws-node?style=for-the-badge)](https://github.com/insight-infrastructure/terraform-harmony-aws-node/pulls)
 
+> Warning: WIP - not ready for use 
+
 ## Features
 
-This module...
+This module bootstraps a node on the Harmony blockchain. 
 
 ## Terraform Versions
 
@@ -13,10 +15,11 @@ For Terraform v0.12.0+
 
 ## Usage
 
-```
-module "this" {
-    source = "github.com/insight-infrastructure/terraform-harmony-aws-node"
-
+```hcl-terraform
+module "defaults" {
+  source           = "../.."
+  private_key_path = var.private_key_path
+  public_key_path  = var.public_key_path
 }
 ```
 ## Examples
