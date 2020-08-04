@@ -66,7 +66,7 @@ resource "aws_eip_association" "this" {
 ##########
 module "user_data" {
   source         = "github.com/insight-harmony/terraform-harmony-user-data.git?ref=master"
-  type           = "sentry"
+  type           = "validator"
   cloud_provider = "aws"
 }
 
