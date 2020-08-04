@@ -38,7 +38,6 @@ instance_type:
 
 sg_vars:
   type: terraform_variables
-  when: "{{ nuki.vars_confirm_ }}"
   variables_file: variables.tf
   merge: true
   var_list:
