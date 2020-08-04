@@ -31,14 +31,19 @@ min_spec_enabled:
   type: confirm
   message: Do you want to use the minimum specs?
 
-instance_type:
+instance_types_:
   type: aws_ec2_types
   region: "{{ nuki.region }}"
   when: "{{ nuki.min_spec_enabled }}"
+  
+instance_type:
+  type: checkbox
+  message: What type of instance do you want to deploy?
+  choices: "{{ nuki.instance_types_ }}"
 
 sg_vars:
   type: terraform_variables
   variables_file: variables.tf
   merge: true
   var_list:
-    - ssh_ips
+    - ssh_ips  # Currently a list(string) so not parsed in operator
