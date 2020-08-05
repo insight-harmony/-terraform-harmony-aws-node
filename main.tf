@@ -13,26 +13,7 @@ data "aws_vpc" "default" {
   default = true
 }
 
-//data "aws_subnet_ids" "default" {
-//  vpc_id = data.aws_vpc.default.id
-//}
-
-//data "aws_subnet" "default" {
-//  count = length(data.aws_subnet_ids.default.ids)
-//  id    = tolist(data.aws_subnet_ids.default.ids)[count.index]
-//}
-//
-//data "aws_availability_zones" "this" {
-//  state = "available"
-//}
-
-//resource "random_integer" "subnet_num" {
-//  min = 0
-//  max = length(data.aws_availability_zones.this.names) - 1
-//}
-
 locals {
-  //  subnet_id              = var.subnet_id == "" ? data.aws_subnet.default.*.id[random_integer.subnet_num.result] : var.subnet_id
   vpc_security_group_ids = compact(concat([join("", aws_security_group.this.*.id)], var.additional_security_groups))
 }
 
