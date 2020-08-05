@@ -27,8 +27,8 @@ data "aws_availability_zones" "this" {
 }
 
 resource "random_integer" "subnet_num" {
-  min = 1
-  max = length(data.aws_availability_zones.this.names)
+  min = 0
+  max = length(data.aws_availability_zones.this.names) - 1
 }
 
 resource "null_resource" "is_array_length_correct" {
