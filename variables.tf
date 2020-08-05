@@ -37,7 +37,7 @@ variable "tags" {
 variable "subnet_id" {
   description = "The id of the subnet. Must be supplied if given vpc_id"
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "vpc_id" {

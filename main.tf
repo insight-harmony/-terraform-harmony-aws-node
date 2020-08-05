@@ -13,26 +13,31 @@ data "aws_vpc" "default" {
   default = true
 }
 
-data "aws_subnet_ids" "default" {
-  vpc_id = data.aws_vpc.default.id
-}
+//data "aws_subnet_ids" "default" {
+//  vpc_id = data.aws_vpc.default.id
+//}
 
-data "aws_subnet" "default" {
-  count = length(data.aws_subnet_ids.default.ids)
-  id    = tolist(data.aws_subnet_ids.default.ids)[count.index]
-}
+//data "aws_subnet" "default" {
+//  count = length(data.aws_subnet_ids.default.ids)
+//  id    = tolist(data.aws_subnet_ids.default.ids)[count.index]
+//}
+//
+//data "aws_availability_zones" "this" {
+//  state = "available"
+//}
 
-data "aws_availability_zones" "this" {
-  state = "available"
-}
+//resource "random_integer" "subnet_num" {
+//  min = 0
+//  max = length(data.aws_availability_zones.this.names) - 1
+//}
 
-resource "random_integer" "subnet_num" {
-  min = 0
-  max = length(data.aws_availability_zones.this.names) - 1
+locals {
+  //  subnet_id              = var.subnet_id == "" ? data.aws_subnet.default.*.id[random_integer.subnet_num.result] : var.subnet_id
+  vpc_security_group_ids = compact(concat([join("", aws_security_group.this.*.id)], var.additional_security_groups))
 }
 
 resource "null_resource" "is_array_length_correct" {
-  count = var.subnet_id == "" && var.vpc_id == "" || var.subnet_id != "" && var.vpc_id != "" ? 0 : 1
+  count = var.subnet_id == null && var.vpc_id == "" || var.subnet_id != "" && var.vpc_id != "" ? 0 : 1
 
   provisioner "local-exec" {
     command = "both vpc_id and subnet_id must be filled in together"
@@ -91,11 +96,6 @@ resource "aws_key_pair" "this" {
   public_key = var.public_key == "" ? file(var.public_key_path) : var.public_key
 }
 
-locals {
-  subnet_id              = var.subnet_id == "" ? data.aws_subnet.default.*.id[random_integer.subnet_num.result] : var.subnet_id
-  vpc_security_group_ids = compact(concat([join("", aws_security_group.this.*.id)], var.additional_security_groups))
-}
-
 resource "aws_instance" "this" {
   count = var.create ? 1 : 0
 
@@ -103,7 +103,7 @@ resource "aws_instance" "this" {
   user_data     = module.user_data.user_data
 
   ami                    = data.aws_ami.ubuntu.id
-  subnet_id              = local.subnet_id
+  subnet_id              = var.subnet_id
   vpc_security_group_ids = local.vpc_security_group_ids
 
   key_name = concat(aws_key_pair.this.*.key_name, [

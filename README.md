@@ -58,7 +58,7 @@ No issue is creating limit on this module.
 | public\_key\_path | The public ssh key path. key\_name takes precidence | `string` | `""` | no |
 | root\_volume\_size | Root volume size | `string` | `"90"` | no |
 | ssh\_ips | List of IPs to restrict ssh traffic to | `list(string)` | n/a | yes |
-| subnet\_id | The id of the subnet. Must be supplied if given vpc\_id | `string` | `""` | no |
+| subnet\_id | The id of the subnet. Must be supplied if given vpc\_id | `string` | n/a | yes |
 | tags | Tags to associate with the instance. | `map(string)` | `{}` | no |
 | vpc\_id | The vpc id to associate with.  Must be supplied if given subnet\_id | `string` | `""` | no |
 
