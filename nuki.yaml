@@ -4,28 +4,30 @@ print_:
   type: print
   statement: Configuring Harmony node on AWS
 
-available_regions_:
-  type: aws_azs
-  region: "{{ nuki.region }}"
+aws_regions_:
+  type: aws_regions
   when: "{{ nuki.region is not defined }}"
 
 region:
-  type: list
+  type: select
   message: Which region would you like to deploy into?
-  choices: "{{ nuki.available_regions_ }}"
+  choices: "{{ nuki.aws_regions_ }}"
   when: "{{ nuki.region is not defined }}"
 
-# Enable for non-simple deployment
-#available_azs_:
-#  type: aws_azs
-#  region: "{{ nuki.region }}"
-#  when: "{{ nuki.azs is not defined }}"
-#
-#azs:
-#  type: checkbox
-#  message: "What availability zones do you want to deploy in {{ nuki.region }}?"
-#  when: "{{ nuki.azs is not defined }}"
-#  choices: "{{ nuki.available_azs_ }}"
+available_azs_:
+  type: aws_azs
+  region: "{{ nuki.region }}"
+  when:
+    - "{{ nuki.stack is defined }}"
+    - "{{ nuki.stack in ['validator', 'validator-simple'] }}"
+
+azs:
+  type: checkbox
+  message: "What availability zones do you want to deploy in {{ nuki.region }}?"
+  choices: "{{ nuki.available_azs_ }}"
+  when:
+    - "{{ nuki.stack is defined }}"
+    - "{{ nuki.stack in ['validator', 'validator-simple'] }}"
 
 min_spec_enabled:
   type: confirm
@@ -34,12 +36,13 @@ min_spec_enabled:
 instance_types_:
   type: aws_ec2_types
   region: "{{ nuki.region }}"
-  when: "{{ nuki.min_spec_enabled }}"
-  
+  when: "{{ not nuki.min_spec_enabled }}"
+
 instance_type:
-  type: checkbox
+  type: select
   message: What type of instance do you want to deploy?
   choices: "{{ nuki.instance_types_ }}"
+  when: "{{ not nuki.min_spec_enabled }}"
 
 sg_vars:
   type: terraform_variables
