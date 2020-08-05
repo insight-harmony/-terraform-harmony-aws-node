@@ -14,24 +14,26 @@ region:
   choices: "{{ nuki.aws_regions_ }}"
   when: "{{ nuki.region is not defined }}"
 
+min_spec_enabled:
+  type: confirm
+  message: Do you want to use the minimum specs?
+
 available_azs_:
   type: aws_azs
   region: "{{ nuki.region }}"
   when:
     - "{{ nuki.stack is defined }}"
     - "{{ nuki.stack in ['validator', 'validator-simple'] }}"
+    - "{{ not nuki.min_spec_enabled }}"
 
 azs:
-  type: checkbox
-  message: "What availability zones do you want to deploy in {{ nuki.region }}?"
+  type: select
+  message: "What availability zone do you want to deploy in {{ nuki.region }}?"
   choices: "{{ nuki.available_azs_ }}"
   when:
     - "{{ nuki.stack is defined }}"
     - "{{ nuki.stack in ['validator', 'validator-simple'] }}"
-
-min_spec_enabled:
-  type: confirm
-  message: Do you want to use the minimum specs?
+    - "{{ not nuki.min_spec_enabled }}"
 
 instance_types_:
   type: aws_ec2_types
